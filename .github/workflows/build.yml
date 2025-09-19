@@ -30,7 +30,7 @@ jobs:
         pyinstaller --onefile main.py
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: GameExecutable
+        name: birthdaygame
         path: dist/main.exe
