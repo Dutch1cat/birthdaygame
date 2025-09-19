@@ -1,14 +1,26 @@
 import pygame
 import random
+import sys
+import os
+def resource_path(relative_path):
+    """Restituisce il path assoluto al file, compatibile con PyInstaller."""
+    try:
+        # Se l'app è impacchettata con PyInstaller
+        base_path = sys._MEIPASS
+    except AttributeError:
+        # Se stai eseguendo da sorgente
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class Battle:
     def __init__(self, screen, disk_color):
         self.screen = screen
         self.disk_color = disk_color
 
-        self.heart_img = pygame.transform.scale(pygame.image.load("images/andrej/heart/heart.png").convert_alpha(), (32, 32))
-        self.note_img = pygame.transform.scale(pygame.image.load("images/disk_attack/note.png").convert_alpha(), (32, 32))
-        self.disk_img = pygame.transform.scale(pygame.image.load(f"images/{disk_color}_disk/frame_1.png").convert_alpha(), (64, 64))
+        self.heart_img = pygame.transform.scale(pygame.image.load(resource_path("images/andrej/heart/heart.png")).convert_alpha(), (32, 32))
+        self.note_img = pygame.transform.scale(pygame.image.load(resource_path("images/disk_attack/note.png")).convert_alpha(), (32, 32))
+        self.disk_img = pygame.transform.scale(pygame.image.load(resource_path(f"images/{disk_color}_disk/frame_1.png")).convert_alpha(), (64, 64))
 
         self.heart_rect = pygame.Rect(100, 300, 32, 32)
         self.heart_speed = 4

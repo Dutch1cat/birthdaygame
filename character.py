@@ -1,5 +1,16 @@
 import pygame
 import os
+import sys
+def resource_path(relative_path):
+    """Restituisce il path assoluto al file, compatibile con PyInstaller."""
+    try:
+        # Se l'app è impacchettata con PyInstaller
+        base_path = sys._MEIPASS
+    except AttributeError:
+        # Se stai eseguendo da sorgente
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -18,7 +29,7 @@ class Player(pygame.sprite.Sprite):
     def load_animations(self, base_path):
         for state in ["idle", "walk"]:
             for direction in ["down", "left", "right", "up"]:
-                path = os.path.join(base_path, f"{state}_{direction}")
+                path = resource_path(os.path.join(base_path, f"{state}_{direction}"))
                 frames = [pygame.transform.scale(pygame.image.load(os.path.join(path, f)).convert_alpha(), (24*3, 32*3))
                           for f in sorted(os.listdir(path)) if f.endswith(".png")]
                 self.animations[f"{state}_{direction}"] = frames

@@ -2,6 +2,18 @@ import pygame
 import random
 from character import Player
 from battle import Battle
+import sys
+import os
+def resource_path(relative_path):
+    """Restituisce il path assoluto al file, compatibile con PyInstaller."""
+    try:
+        # Se l'app è impacchettata con PyInstaller
+        base_path = sys._MEIPASS
+    except AttributeError:
+        # Se stai eseguendo da sorgente
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 pygame.init()
 screen = pygame.display.set_mode((1120, 800))
@@ -50,7 +62,7 @@ disk_sprites = []
 collected_disks = []
 
 for color, pos in zip(disk_colors, disk_positions):
-    idle_img = pygame.image.load(f"images/{color}_disk/frame_0.png").convert_alpha()
+    idle_img = pygame.image.load(resource_path(f"images/{color}_disk/frame_0.png")).convert_alpha()
     idle_img = pygame.transform.scale(idle_img, (64, 64))
     rect = idle_img.get_rect(topleft=pos)
     disk_sprites.append({"color": color, "image": idle_img, "rect": rect, "active": True})
