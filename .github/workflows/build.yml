@@ -1,4 +1,4 @@
-name: Build Windows Executable
+name: Build Windows Executable (Folder Mode)
 
 on:
   push:
@@ -25,12 +25,12 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller
 
-    - name: Build executable
+    - name: Build executable (folder mode)
       run: |
-        pyinstaller --onefile main.py
+        pyinstaller main.py
 
-    - name: Upload artifact
+    - name: Upload artifact (entire dist folder)
       uses: actions/upload-artifact@v4
       with:
-        name: birthdaygame
-        path: dist/main.exe
+        name: birthdaygame-folder
+        path: dist/main/
